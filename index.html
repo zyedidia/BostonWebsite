@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-<script src="jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="google-spreadsheet.js"></script>
@@ -11,10 +11,10 @@
 <body>
 
 <style>
-	.ui-slider {
-		position: relative;
-		top: 200px;
-	}
+.ui-slider {
+	position: relative;
+	top: 200px;
+}
 </style>
 
 <div data-role="page">
@@ -23,84 +23,7 @@
 
 <div id="linechart" style="width: 500; height: 300;"></div>
 
-<script>
-	var resultData = ["No Results"];
-	var headerAmount = 0;
-	var numRows = 0;
-	var chart = null;
-	var data = null;
-	$(document).on('change', 'input', changed)
-	function changed() {
-		var year = $("#years").val();
-		drawChart(year)
-	}
-
-	google.load("visualization", "1", {packages:["corechart"]});
-	google.setOnLoadCallback(drawChart);
-
-	function drawChart(year) {
-        var data = new google.visualization.DataTable();
-
-		for (i = 0; i <= headerAmount; i++) {
-			data.addColumn('number', resultData[i]);
-		}
-		data.addRows(numRows);
-
-		var next = headerAmount + 1;
-		for (i = 0; i < numRows; i++) {
-			for (j = 0; j <= headerAmount; j++) {
-				var num = parseInt(resultData[next]);
-				if (next % 3 === 0) {
-					if (resultData[next] > year) {
-						console.log(resultData[next] + " > " + year);
-						i = numRows;
-						break;
-					}
-				}
-				data.setCell(i, j, num);
-				next++;
-			}
-		}
-
-		var options = {
-			title: 'Things',
-			hAxis: {
-				format: '####',
-				title: 'Year'
-			},
-			vAxis: {
-				title: 'Amount'
-			},
-			dataOpacity: 1.0
-		};
-
-
-		if (chart === null) {
-			chart = new google.visualization.LineChart(document.getElementById('linechart'));
-		}
-
-		chart.draw(data, options);
-	}
-
-	var sample_url = "https://docs.google.com/spreadsheets/d/16gXY8cb53luvbdu-aOyQ9iYFifbsbEXOYjMyqidj74U/pubhtml";
-	var url_parameter = document.location.search.split(/\?url=/)[1]
-	var url = url_parameter || sample_url;
-	var googleSpreadsheet = new GoogleSpreadsheet();
-	googleSpreadsheet.url(url);
-	googleSpreadsheet.load(function (result) {
-		console.log(result.data);
-		resultData = result.data;
-		for (i = 1; i < resultData.length; i++) {
-			if (Number(resultData[i]) % 1 === 0) {
-				break;
-			} else {
-				headerAmount++;
-			}
-		}
-
-		numRows = resultData.length / (headerAmount + 1) - 1;
-	});
-</script>
+<script src="page.js"></script>
 
 </body>
 </html>
