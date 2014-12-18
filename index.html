@@ -3,10 +3,10 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="google-spreadsheet-javascript/google-spreadsheet.js"></script>
+<script type="text/javascript" src="google-spreadsheet.js"></script>
 </head>
 <body>
 
@@ -44,7 +44,6 @@
 		for (i = 0; i <= headerAmount; i++) {
 			data.addColumn('number', resultData[i]);
 		}
-
 		data.addRows(numRows);
 
 		var next = headerAmount + 1;
@@ -58,7 +57,6 @@
 						break;
 					}
 				}
-				console.log(i + " " + j + " " + num)
 				data.setCell(i, j, num);
 				next++;
 			}
@@ -89,7 +87,7 @@
 	var url = url_parameter || sample_url;
 	var googleSpreadsheet = new GoogleSpreadsheet();
 	googleSpreadsheet.url(url);
-	googleSpreadsheet.load(function(result) {
+	googleSpreadsheet.load(function (result) {
 		console.log(result.data);
 		resultData = result.data;
 		for (i = 1; i < resultData.length; i++) {
@@ -99,7 +97,6 @@
 				headerAmount++;
 			}
 		}
-		console.log(headerAmount);
 
 		numRows = resultData.length / (headerAmount + 1) - 1;
 	});
