@@ -3,17 +3,34 @@ var headerAmount = 0;
 var numRows = 0;
 var chart = null;
 var data = null;
+var currentYearDisplay = 1640;
 $(document).on('change', 'input', changed)
 function changed() {
 	var year = $("#years").val();
-	drawChart(year)
+	drawChart(year);
+	pictureYears = [1640, 1795, 1852, 1880, 1934, 1950, 1995];
+	year = parseInt(year);
+	if (pictureYears.indexOf(year) != -1) {
+		change_image('images/boston' + year + '.png');
+		currentYearDisplay = year;
+	}
+	if (year < currentYearDisplay) {
+		var newImageYear = pictureYears[pictureYears.indexOf(currentYearDisplay) - 1];
+		change_image('images/boston' + newImageYear + '.png');
+		currentYearDisplay = newImageYear;
+	}
+	if (year > pictureYears[pictureYears.indexOf(currentYearDisplay) + 1]) {
+		var newImageYear = pictureYears[pictureYears.indexOf(currentYearDisplay) + 1];
+		change_image('images/boston' + newImageYear + '.png');
+		currentYearDisplay = newImageYear;
+	}
 }
 
 google.load("visualization", "1", {packages:["corechart"]});
 google.setOnLoadCallback(drawChart);
 
 function drawChart(year) {
-	if (headerAmount == 0) {
+	if (headerAmount === 0 || resultData.length === 0) {
 		return;
 	}
 	var data = new google.visualization.DataTable();
@@ -79,3 +96,8 @@ googleSpreadsheet.load(function (result) {
 
 	drawChart(1640);
 });
+
+function change_image(src) {
+	console.log(src);
+	$("#bostonImage").attr('src', src);
+}
